@@ -8,6 +8,7 @@ set cpo&vim
 
 " keep default value
 let s:current_font = &guifont
+let s:current_fontwide = &guifontwide
 
 " command
 command! -narg=0 ZoomIn    :call s:ZoomIn()
@@ -24,6 +25,11 @@ function! s:ZoomIn()
   let l:fsize += 1
   let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
   let &guifont = l:guifont
+
+  let l:fsizewide = substitute(&guifontwide, '^.*:h\([^:]*\).*$', '\1', '')
+  let l:fsizewide += 1
+  let l:guifontwide = substitute(&guifontwide, ':h\([^:]*\)', ':h' . l:fsizewide, '')
+  let &guifontwide = l:guifontwide
 endfunction
 
 " guifont size - 1
@@ -32,11 +38,17 @@ function! s:ZoomOut()
   let l:fsize -= 1
   let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
   let &guifont = l:guifont
+
+  let l:fsizewide = substitute(&guifontwide, '^.*:h\([^:]*\).*$', '\1', '')
+  let l:fsizewide -= 1
+  let l:guifontwide = substitute(&guifontwide, ':h\([^:]*\)', ':h' . l:fsizewide, '')
+  let &guifontwide = l:guifontwide
 endfunction
 
 " reset guifont size
 function! s:ZoomReset()
   let &guifont = s:current_font
+  let &guifontwide = s:current_fontwide
 endfunction
 
 let &cpo = s:save_cpo
